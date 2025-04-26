@@ -1,10 +1,10 @@
 # 🚀 Conjuntos Dinâmicos AVL
 
-![GitHub Repo stars](https://img.shields.io/github/stars/WillianSilva51/ConjuntosDinamicosAVL?style=social)
+![GitHub Repo stars](https://img.shields.io/github/stars/WillianSilva51/Conjuntos-Dinamicos-AVL?style=social)
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
 ![Coverage](https://img.shields.io/badge/coverage-95%25-yellow)
-![Repo Size](https://img.shields.io/github/repo-size/WillianSilva51/ConjuntosDinamicosAVL)
-![Languages](https://img.shields.io/github/languages/count/WillianSilva51/ConjuntosDinamicosAVL)
+![Repo Size](https://img.shields.io/github/repo-size/WillianSilva51/Conjuntos-Dinamicos-AVL)
+![Languages](https://img.shields.io/github/languages/count/WillianSilva51/Conjuntos-Dinamicos-AVL)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
 > Implementação em C++ de conjuntos dinâmicos de inteiros usando árvores AVL, garantindo operações de inserção, remoção e busca com complexidade O(log n).
@@ -111,13 +111,13 @@ A arquitetura segue o paradigma orientado a objetos, separando declaração (`Se
 
 ### Clonando o repositório
 ```bash
-git clone https://github.com/WillianSilva51/ConjuntosDinamicosAVL.git
-cd ConjuntosDinamicosAVL
+git clone https://github.com/WillianSilva51/Conjuntos-Dinamicos-AVL.git
+cd Conjuntos-Dinamicos-AVL
 ```
 
 ### Usando Make
 ```bash
-cd ConjuntosDinamicosAVL
+cd Conjuntos-Dinamicos-AVL
 make
 ```
 
@@ -128,7 +128,7 @@ make
 Execute o binário e siga o menu para testar as operações:
 
 ```bash
-cd ConjuntosDinamicosAVL/bin
+cd Conjuntos-Dinamicos-AVL/bin
 ./Set
 ```
 
@@ -175,7 +175,7 @@ Exemplo de fluxo:
 Para testar as funções, adicione casos em `tests/` e execute:
 ```bash
 # Exemplo simples
-./ConjuntosAVL < tests/casos.txt
+./Set < tests/casos.txt
 ```
 
 ---
@@ -199,7 +199,7 @@ Para testar as funções, adicione casos em `tests/` e execute:
 4. Push: `git push origin feature/nome-da-feature`
 5. Abra um Pull Request
 
-Consulte `CONTRIBUTING.md` para diretrizes de estilo.
+Como alternativa, consulte a documentação do GitHub em [como criar uma solicitação pull](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
 
 ---
 
