@@ -41,7 +41,9 @@ int main()
 
     cout << "min: " << tree.minimum() << endl;
 
-    //    cout << tree << endl;
+    cout << "succ: " << tree.successor(14) << endl;
+
+    cout << "pred: " << tree.predecessor(15) << endl;
 
     return 0;
 }

@@ -2,7 +2,7 @@
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/WillianSilva51/Conjuntos-Dinamicos-AVL?style=social)
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
-![Coverage](https://img.shields.io/badge/coverage-95%25-yellow)
+![Coverage](https://img.shields.io/badge/coverage-65%25-yellow)
 ![Repo Size](https://img.shields.io/github/repo-size/WillianSilva51/Conjuntos-Dinamicos-AVL)
 ![Languages](https://img.shields.io/github/languages/count/WillianSilva51/Conjuntos-Dinamicos-AVL)
 ![License](https://img.shields.io/badge/license-MIT-blue)
@@ -50,9 +50,9 @@ Este projeto apresenta uma estrutura de dados `Set` dinâmica, implementada em C
 - **Sucessor/Predecessor** (`successor(x)`, `predecessor(x)`) – encontra vizinhos no conjunto ou lança exceção.
 - **Empty/Size** (`empty()`, `size()`) – verifica se vazio e retorna o número de elementos.
 - **Operações binárias:**
-  - **União** (`union(S, R)`) – retorna S ∪ R.
-  - **Interseção** (`intersection(S, R)`) – retorna S ∩ R.
-  - **Diferença** (`difference(S, R)`) – retorna S − R.
+  - **União** (`Union(S, R)`) – retorna S ∪ R.
+  - **Interseção** (`Intersection(S, R)`) – retorna S ∩ R.
+  - **Diferença** (`Difference(S, R)`) – retorna S − R.
 
 ---
 
@@ -129,7 +129,7 @@ Execute o binário e siga o menu para testar as operações:
 
 ```bash
 cd Conjuntos-Dinamicos-AVL/bin
-./Set
+./Conjuntos-Dinamicos-AVL
 ```
 
 Exemplo de fluxo:

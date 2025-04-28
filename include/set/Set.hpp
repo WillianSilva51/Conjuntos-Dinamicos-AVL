@@ -63,9 +63,15 @@ public:
 
     T maximum() const;
 
-    T successor() const;
+    T successor(const T &key) const;
 
-    T predecessor() const;
+    T predecessor(const T &key) const;
+
+    Set Union(const Set &other) const;
+
+    Set Intersection(const Set &other) const;
+
+    Set Difference(const Set &other) const;
 
     // Funções de impressão
 
@@ -77,14 +83,6 @@ public:
 
     void printLarge();
 
-    /*  friend std::ostream &operator<<(std::ostream &os, const Set<T> &set)
-      {
-          os << "[";
-          set.printInOrder();
-          os << "]";
-          return os;
-      }
-  */
     void bshow();
 };
 
@@ -261,26 +259,122 @@ Node<T> *Set<T>::fixup_node(NodePtr p)
 
     int bal = balance(p);
 
-    if (bal < -1 && height(p->left->left) > height(p->left->right))
+    if (bal < -1 and height(p->left->left) > height(p->left->right))
     {
         return rightRotation(p);
     }
-    else if (bal < -1 && height(p->left->left) < height(p->left->right))
+    else if (bal < -1 and height(p->left->left) < height(p->left->right))
     {
         p->left = leftRotation(p->left);
         return rightRotation(p);
     }
-    else if (bal > 1 && height(p->right->right) > height(p->right->left))
+    else if (bal > 1 and height(p->right->right) > height(p->right->left))
     {
         return leftRotation(p);
     }
-    else if (bal > 1 && height(p->right->right) < height(p->right->left))
+    else if (bal > 1 and height(p->right->right) < height(p->right->left))
     {
         p->right = rightRotation(p->right);
         return leftRotation(p);
     }
 
     return p;
+}
+
+template <class T>
+T Set<T>::successor(const T &key) const
+{
+    if (root == nullptr)
+        throw std::runtime_error("Nao ha elementos no Set");
+
+    NodePtr aux{root};
+    NodePtr succ{nullptr};
+
+    while (aux != nullptr)
+    {
+        if (key < aux->key)
+        {
+            succ = aux;
+            aux = aux->left;
+        }
+        else if (key > aux->key)
+            aux = aux->right;
+        else
+            break;
+    }
+
+    if (aux == nullptr)
+        throw std::runtime_error("Elemento nao encontrado");
+
+    if (aux->right != nullptr)
+    {
+        aux = aux->right;
+        while (aux->left != nullptr)
+            aux = aux->left;
+
+        return aux->key;
+    }
+
+    if (succ == nullptr or succ->key <= key)
+        throw std::runtime_error("Nao ha sucessor");
+
+    return succ->key;
+}
+
+template <class T>
+T Set<T>::predecessor(const T &key) const
+{
+    if (root == nullptr)
+        throw std::runtime_error("Nao ha elementos no Set");
+
+    NodePtr aux{root};
+    NodePtr succ{nullptr};
+
+    while (aux != nullptr)
+    {
+        if (key < aux->key)
+            aux = aux->left;
+
+        else if (key > aux->key)
+        {
+            succ = aux;
+            aux = aux->right;
+        }
+        else
+            break;
+    }
+
+    if (aux == nullptr)
+        throw std::runtime_error("Elemento nao encontrado");
+
+    if (aux->left != nullptr)
+    {
+        aux = aux->left;
+        while (aux->right != nullptr)
+            aux = aux->right;
+
+        return aux->key;
+    }
+
+    if (succ == nullptr or succ->key >= key)
+        throw std::runtime_error("Nao ha predecessor");
+
+    return succ->key;
+}
+
+template <class T>
+Set<T> Set<T>::Union(const Set<T> &other) const
+{
+}
+
+template <class T>
+Set<T> Set<T>::Intersection(const Set<T> &other) const
+{
+}
+
+template <class T>
+Set<T> Set<T>::Difference(const Set<T> &other) const
+{
 }
 
 template <class T>
@@ -384,7 +478,7 @@ void Set<T>::bshow()
 template <class T>
 void Set<T>::bshow(NodePtr node, std::string heranca)
 {
-    if (node != nullptr && (node->left != nullptr || node->right != nullptr))
+    if (node != nullptr and (node->left != nullptr or node->right != nullptr))
         bshow(node->right, heranca + "r");
     for (int i = 0; i < (int)heranca.size() - 1; i++)
         std::cout << (heranca[i] != heranca[i + 1] ? "│   " : "    ");
@@ -396,6 +490,6 @@ void Set<T>::bshow(NodePtr node, std::string heranca)
         return;
     }
     std::cout << node->key << std::endl;
-    if (node != nullptr && (node->left != nullptr || node->right != nullptr))
+    if (node != nullptr and (node->left != nullptr or node->right != nullptr))
         bshow(node->left, heranca + "l");
 }

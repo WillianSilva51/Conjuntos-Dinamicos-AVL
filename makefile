@@ -38,7 +38,7 @@ else
 	FIXPATH        = $1
 	MKDIR          = mkdir -p
 	OBJ_MKDIR       = $(MKDIR) "$(dir $@)" 2>/dev/null || true
-	EXT            = .run
+	EXT            = 
 	Cleanup        = clear
 	CommandCreate  = if [ ! -d "$@" ]; then $(MKDIR) "$@"; fi
 endif

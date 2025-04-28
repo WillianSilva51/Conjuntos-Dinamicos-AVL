@@ -12,7 +12,8 @@
         "unordered_map": "cpp",
         "vector": "cpp",
         "format": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "stdexcept": "cpp"
     },
     "github.copilot.enable": {
         "*": true,
