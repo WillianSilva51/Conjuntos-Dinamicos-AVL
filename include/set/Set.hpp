@@ -2,6 +2,7 @@
 
 #include "node/Node.hpp"
 #include <iostream>
+#include <initializer_list>
 #include <queue>
 
 template <class T>
@@ -13,6 +14,10 @@ private:
     Node<T> *root{nullptr};
 
     size_t size_m{0};
+
+    Node<T> *insert(NodePtr p, const T &key);
+
+    Node<T> *remove(NodePtr p, const T &key);
 
     Node<T> *clear(NodePtr root);
 
@@ -26,11 +31,11 @@ private:
 
     Node<T> *leftRotation(NodePtr p);
 
-    Node<T> *insert(NodePtr p, const T &key);
-
     bool contains(NodePtr root, const T &key) const;
 
     Node<T> *fixup_node(NodePtr p);
+
+    void insertUnion(Set<T> &result, const NodePtr &node) const;
 
     void printInOrder(NodePtr node);
 
@@ -45,6 +50,13 @@ private:
 public:
     Set() = default;
 
+    Set(const Set &other) : Set()
+    {
+        insertUnion(*this, other.root);
+    }
+
+    Set(std::initializer_list<T> list);
+
     ~Set();
 
     size_t size() const;
@@ -56,6 +68,8 @@ public:
     void swap(Set<T> &other);
 
     void insert(const T &key);
+
+    void erase(const T &key);
 
     bool contains(const T &key) const;
 
@@ -73,6 +87,21 @@ public:
 
     Set Difference(const Set &other) const;
 
+    Set operator+(const Set &other) const
+    {
+        return Union(other);
+    }
+
+    Set operator*(const Set &other) const
+    {
+        return Intersection(other);
+    }
+
+    Set operator-(const Set &other) const
+    {
+        return Difference(other);
+    }
+
     // Funções de impressão
 
     void printInOrder();
@@ -87,6 +116,13 @@ public:
 };
 
 // -------------------------------------------Implementação da classe Set.------------------------------------------------------------------
+
+template <class T>
+Set<T>::Set(std::initializer_list<T> list) : Set()
+{
+    for (const auto &key : list)
+        insert(key);
+}
 
 template <class T>
 Set<T>::~Set()
@@ -160,6 +196,18 @@ template <class T>
 void Set<T>::insert(const T &key)
 {
     root = insert(root, key);
+}
+
+template <class T>
+void Set<T>::erase(const T &key)
+{
+    root = remove(root, key);
+}
+
+template <class T>
+Node<T> *Set<T>::remove(NodePtr p, const T &key)
+{
+    return p;
 }
 
 template <class T>
@@ -363,8 +411,41 @@ T Set<T>::predecessor(const T &key) const
 }
 
 template <class T>
+void Set<T>::insertUnion(Set<T> &result, const NodePtr &node) const
+{
+    if (node == nullptr)
+        return;
+
+    std::queue<NodePtr> nodes;
+    nodes.push(node);
+
+    while (!nodes.empty())
+    {
+        NodePtr atual = nodes.front();
+        nodes.pop();
+
+        if (atual == nullptr)
+            continue;
+
+        result.insert(atual->key);
+
+        if (atual->left != nullptr)
+            nodes.push(atual->left);
+
+        if (atual->right != nullptr)
+            nodes.push(atual->right);
+    }
+}
+
+template <class T>
 Set<T> Set<T>::Union(const Set<T> &other) const
 {
+    Set<T> result;
+
+    insertUnion(result, root);
+    insertUnion(result, other.root);
+
+    return result;
 }
 
 template <class T>
@@ -465,8 +546,6 @@ void Set<T>::printLarge(NodePtr node)
         if (atual->right != nullptr)
             nodes.push(atual->right);
     }
-
-    std::cout << std::endl;
 }
 
 template <class T>
