@@ -1,9 +1,11 @@
 #pragma once
 
 #include "node/Node.hpp"
+
 #include <iostream>
 #include <initializer_list>
 #include <queue>
+#include <stack>
 
 template <class T>
 class Set
@@ -451,11 +453,59 @@ Set<T> Set<T>::Union(const Set<T> &other) const
 template <class T>
 Set<T> Set<T>::Intersection(const Set<T> &other) const
 {
+    if (root == nullptr)
+        return Set<T>();
+
+    std::stack<NodePtr> nodes;
+    nodes.push(root);
+
+    Set<T> result;
+
+    while (!nodes.empty())
+    {
+        NodePtr aux = nodes.top();
+        nodes.pop();
+
+        if (other.contains(aux->key))
+            result.insert(aux->key);
+
+        if (aux->left != nullptr)
+            nodes.push(aux->left);
+
+        if (aux->right != nullptr)
+            nodes.push(aux->right);
+    }
+
+    return result;
 }
 
 template <class T>
 Set<T> Set<T>::Difference(const Set<T> &other) const
 {
+    if (root == nullptr)
+        return Set<T>();
+
+    std::stack<NodePtr> nodes;
+    nodes.push(root);
+
+    Set<T> result;
+
+    while (!nodes.empty())
+    {
+        NodePtr aux = nodes.top();
+        nodes.pop();
+
+        if (!other.contains(aux->key))
+            result.insert(aux->key);
+
+        if (aux->left != nullptr)
+            nodes.push(aux->left);
+
+        if (aux->right != nullptr)
+            nodes.push(aux->right);
+    }
+
+    return result;
 }
 
 template <class T>

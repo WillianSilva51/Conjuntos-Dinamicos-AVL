@@ -12,7 +12,7 @@ enum Opcoes // Enumeração para as opções do menu
     MANIPULAR_SET,
     IMPRIMIR_SET,
     UNIR_SET,
-    INTERSECCAO_SET,
+    INTERSECAO_SET,
     DIFERENCA_SET,
     SAIR
 };
@@ -167,7 +167,7 @@ int main()
         std::cout << "[2] - Manipular Conjunto" << std::endl;
         std::cout << "[3] - Imprimir Conjunto" << std::endl;
         std::cout << "[4] - União De Conjuntos" << std::endl;
-        std::cout << "[5] - Intersecção De Conjuntos" << std::endl;
+        std::cout << "[5] - Interseção De Conjuntos" << std::endl;
         std::cout << "[6] - Diferença De Conjuntos" << std::endl;
         std::cout << "[7] - Sair" << std::endl;
         int opcao;
@@ -184,7 +184,7 @@ int main()
 
         case MANIPULAR_SET:
         {
-            std::cout << "Escolha o conjunto para manipular: ";
+            std::cout << "Escolha o conjunto para manipular: " << endl;
 
             try
             {
@@ -205,7 +205,7 @@ int main()
         {
             imprimirConjuntos(conjuntos);
 
-            std::cout << "Escolha o conjunto para imprimir: ";
+            std::cout << "Escolha o conjunto para imprimir: " << endl;
             try
             {
                 printConjunto(getConjunto(conjuntos));
@@ -246,13 +246,59 @@ int main()
             break;
         }
 
-        case INTERSECCAO_SET:
+        case INTERSECAO_SET:
         {
+            try
+            {
+                imprimirConjuntos(conjuntos);
+
+                std::cout << "Escolha o primeiro conjunto para fazer a interseção: ";
+                Set<int> &conjunto1 = getConjunto(conjuntos);
+
+                std::cout << "Escolha o segundo conjunto para fazer a interseção: ";
+                Set<int> &conjunto2 = getConjunto(conjuntos);
+
+                Set<int> intersec = conjunto1.Intersection(conjunto2);
+
+                std::cout << "Interseção dos conjuntos: { ";
+                intersec.printInOrder();
+                std::cout << "}" << std::endl;
+
+                salvarConjunto(intersec, conjuntos);
+            }
+            catch (const std::exception &e)
+            {
+                std::cerr << e.what() << '\n';
+            }
+
             break;
         }
 
         case DIFERENCA_SET:
         {
+            try
+            {
+                imprimirConjuntos(conjuntos);
+
+                std::cout << "Escolha o primeiro conjunto para fazer a diferença: ";
+                Set<int> &conjunto1 = getConjunto(conjuntos);
+
+                std::cout << "Escolha o segundo conjunto para fazer a diferença: ";
+                Set<int> &conjunto2 = getConjunto(conjuntos);
+
+                Set<int> diff = conjunto1.Difference(conjunto2);
+
+                std::cout << "Interseção dos conjuntos: { ";
+                diff.printInOrder();
+                std::cout << "}" << std::endl;
+
+                salvarConjunto(diff, conjuntos);
+            }
+            catch (const std::exception &e)
+            {
+                std::cerr << e.what() << '\n';
+            }
+
             break;
         }
 
