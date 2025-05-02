@@ -17,9 +17,15 @@ private:
 
     size_t size_m{0};
 
+    Node<T> *fixup_node(NodePtr p);
+
     Node<T> *insert(NodePtr p, const T &key);
 
+    Node<T> *fixup_deletion(NodePtr p);
+
     Node<T> *remove(NodePtr p, const T &key);
+
+    Node<T> *remove_successor(NodePtr root, NodePtr node);
 
     Node<T> *clear(NodePtr root);
 
@@ -34,8 +40,6 @@ private:
     Node<T> *leftRotation(NodePtr p);
 
     bool contains(NodePtr root, const T &key) const;
-
-    Node<T> *fixup_node(NodePtr p);
 
     void insertUnion(Set<T> &result, const NodePtr &node) const;
 
@@ -52,10 +56,7 @@ private:
 public:
     Set() = default;
 
-    Set(const Set &other) : Set()
-    {
-        insertUnion(*this, other.root);
-    }
+    Set(const Set &other);
 
     Set(std::initializer_list<T> list);
 
@@ -89,20 +90,11 @@ public:
 
     Set Difference(const Set &other) const;
 
-    Set operator+(const Set &other) const
-    {
-        return Union(other);
-    }
+    Set operator+(const Set &other) const;
 
-    Set operator*(const Set &other) const
-    {
-        return Intersection(other);
-    }
+    Set operator*(const Set &other) const;
 
-    Set operator-(const Set &other) const
-    {
-        return Difference(other);
-    }
+    Set operator-(const Set &other) const;
 
     // Funções de impressão
 
@@ -124,6 +116,12 @@ Set<T>::Set(std::initializer_list<T> list) : Set()
 {
     for (const auto &key : list)
         insert(key);
+}
+
+template <class T>
+Set<T>::Set(const Set &other) : Set()
+{
+    insertUnion(*this, other.root);
 }
 
 template <class T>
@@ -174,6 +172,35 @@ void Set<T>::swap(Set<T> &other)
 }
 
 template <class T>
+Node<T> *Set<T>::fixup_node(NodePtr p)
+{
+    p->height = updateHeight(p);
+
+    int bal = balance(p);
+
+    if (bal < -1 and height(p->left->left) > height(p->left->right))
+    {
+        return rightRotation(p);
+    }
+    else if (bal < -1 and height(p->left->left) < height(p->left->right))
+    {
+        p->left = leftRotation(p->left);
+        return rightRotation(p);
+    }
+    else if (bal > 1 and height(p->right->right) > height(p->right->left))
+    {
+        return leftRotation(p);
+    }
+    else if (bal > 1 and height(p->right->right) < height(p->right->left))
+    {
+        p->right = rightRotation(p->right);
+        return leftRotation(p);
+    }
+
+    return p;
+}
+
+template <class T>
 Node<T> *Set<T>::insert(NodePtr p, const T &key)
 {
     if (p == nullptr)
@@ -207,9 +234,73 @@ void Set<T>::erase(const T &key)
 }
 
 template <class T>
+Node<T> *Set<T>::fixup_deletion(NodePtr p)
+{
+    int bal = balance(p);
+
+    if (bal > 1 and balance(p->right) >= 0)
+        return leftRotation(p);
+
+    if (bal > 1 and balance(p->right) < 0)
+    {
+        p->right = rightRotation(p->right);
+        return leftRotation(p);
+    }
+
+    if (bal < -1 and balance(p->left) <= 0)
+        return rightRotation(p);
+
+    if (bal < -1 and balance(p->left) > 0)
+    {
+        p->left = leftRotation(p->left);
+        return rightRotation(p);
+    }
+
+    p->height = updateHeight(p);
+
+    return p;
+}
+
+template <class T>
 Node<T> *Set<T>::remove(NodePtr p, const T &key)
 {
+    if (p == nullptr)
+        return p;
+
+    if (key < p->key)
+        p->left = remove(p->left, key);
+    else if (key > p->key)
+        p->right = remove(p->right, key);
+    else if (p->right == nullptr)
+    {
+        NodePtr child = p->left;
+        delete p;
+        return child;
+    }
+    else
+        p->right = remove_successor(p, p->right);
+
+    p = fixup_deletion(p);
+
     return p;
+}
+
+template <class T>
+Node<T> *Set<T>::remove_successor(NodePtr root, NodePtr node)
+{
+    if (node->left != nullptr)
+        node->left = remove_successor(root, node->left);
+    else
+    {
+        root->key = node->key;
+        NodePtr aux = node->right;
+        delete node;
+        return aux;
+    }
+
+    node = fixup_deletion(node);
+
+    return node;
 }
 
 template <class T>
@@ -303,35 +394,6 @@ T Set<T>::maximum() const
 }
 
 template <class T>
-Node<T> *Set<T>::fixup_node(NodePtr p)
-{
-    p->height = updateHeight(p);
-
-    int bal = balance(p);
-
-    if (bal < -1 and height(p->left->left) > height(p->left->right))
-    {
-        return rightRotation(p);
-    }
-    else if (bal < -1 and height(p->left->left) < height(p->left->right))
-    {
-        p->left = leftRotation(p->left);
-        return rightRotation(p);
-    }
-    else if (bal > 1 and height(p->right->right) > height(p->right->left))
-    {
-        return leftRotation(p);
-    }
-    else if (bal > 1 and height(p->right->right) < height(p->right->left))
-    {
-        p->right = rightRotation(p->right);
-        return leftRotation(p);
-    }
-
-    return p;
-}
-
-template <class T>
 T Set<T>::successor(const T &key) const
 {
     if (root == nullptr)
@@ -418,16 +480,13 @@ void Set<T>::insertUnion(Set<T> &result, const NodePtr &node) const
     if (node == nullptr)
         return;
 
-    std::queue<NodePtr> nodes;
+    std::stack<NodePtr> nodes;
     nodes.push(node);
 
     while (!nodes.empty())
     {
-        NodePtr atual = nodes.front();
+        NodePtr atual = nodes.top();
         nodes.pop();
-
-        if (atual == nullptr)
-            continue;
 
         result.insert(atual->key);
 
@@ -506,6 +565,24 @@ Set<T> Set<T>::Difference(const Set<T> &other) const
     }
 
     return result;
+}
+
+template <class T>
+Set<T> Set<T>::operator+(const Set &other) const
+{
+    return Union(other);
+}
+
+template <class T>
+Set<T> Set<T>::operator*(const Set &other) const
+{
+    return Intersection(other);
+}
+
+template <class T>
+Set<T> Set<T>::operator-(const Set &other) const
+{
+    return Difference(other);
 }
 
 template <class T>

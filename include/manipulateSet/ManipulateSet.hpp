@@ -114,6 +114,26 @@ void manipulate(Set<T> &set)
         }
         case 4:
         {
+            cout << "Tem certeza que deseja limpar o conjunto? (s/n): ";
+            char resposta;
+
+            std::cin >> resposta;
+            if (tolower(resposta) == 's')
+            {
+                set.clear();
+                std::cout << "Conjunto limpo." << std::endl;
+            }
+            else if (tolower(resposta) == 'n')
+            {
+                std::cout << "Operação cancelada." << std::endl;
+                break;
+            }
+            else
+            {
+                std::cout << "Opção inválida. Operação cancelada." << std::endl;
+                break;
+            }
+
             set.clear();
             break;
         }

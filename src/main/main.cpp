@@ -154,9 +154,9 @@ int main()
 
     std::cout << "Bem-vindo ao programa de manipulação de Conjuntos Dinâmicos" << std::endl;
 
-    vector<Set<int>> conjuntos({Set<int>({1, 2, 3, 4, 5, 6, 7}),
-                                Set<int>({1, 2, 3, 11, 12, 13, 14}),
-                                Set<int>({15, 16, 17, 18, 19, 20})});
+    vector<Set<int>> conjuntos({Set<int>({1, 2, 3, 4, 5, 6, 7, 8, 9, 10}),
+                                Set<int>({1, 2, 3, 77, 50, 12}),
+                                Set<int>({15, 16, 17, 18, 19, 20, 21})});
 
     while (true)
     {
@@ -170,6 +170,7 @@ int main()
         std::cout << "[5] - Interseção De Conjuntos" << std::endl;
         std::cout << "[6] - Diferença De Conjuntos" << std::endl;
         std::cout << "[7] - Sair" << std::endl;
+
         int opcao;
         std::cin >> opcao;
         std::cin.ignore();
@@ -288,7 +289,7 @@ int main()
 
                 Set<int> diff = conjunto1.Difference(conjunto2);
 
-                std::cout << "Interseção dos conjuntos: { ";
+                std::cout << "Diferença dos conjuntos: { ";
                 diff.printInOrder();
                 std::cout << "}" << std::endl;
 
