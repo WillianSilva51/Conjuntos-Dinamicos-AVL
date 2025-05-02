@@ -69,6 +69,8 @@ void manipulate(Set<T> &set)
         std::cout << "Conjunto atual: { ";
         set.printInOrder();
         std::cout << "}" << std::endl;
+        std::cout << "Tamanho do conjunto: " << set.size() << std::endl;
+        std::cout << "Conjunto vazio? " << (set.empty() ? "Sim" : "Não") << std::endl;
         std::cout << "-----------------------------------------------------------" << std::endl;
 
         std::cout << "Escolha uma opção: " << std::endl;
@@ -114,7 +116,7 @@ void manipulate(Set<T> &set)
         }
         case 4:
         {
-            cout << "Tem certeza que deseja limpar o conjunto? (s/n): ";
+            std::cout << "Tem certeza que deseja limpar o conjunto? (s/n): ";
             char resposta;
 
             std::cin >> resposta;
@@ -133,8 +135,6 @@ void manipulate(Set<T> &set)
                 std::cout << "Opção inválida. Operação cancelada." << std::endl;
                 break;
             }
-
-            set.clear();
             break;
         }
         case 5:

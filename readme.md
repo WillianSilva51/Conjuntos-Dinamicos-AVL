@@ -2,7 +2,6 @@
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/WillianSilva51/Conjuntos-Dinamicos-AVL?style=social)
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
-![Coverage](https://img.shields.io/badge/coverage-65%25-yellow)
 ![Repo Size](https://img.shields.io/github/repo-size/WillianSilva51/Conjuntos-Dinamicos-AVL)
 ![Languages](https://img.shields.io/github/languages/count/WillianSilva51/Conjuntos-Dinamicos-AVL)
 ![License](https://img.shields.io/badge/license-MIT-blue)
@@ -19,9 +18,6 @@
 - [Instalação](#instalação)
 - [Uso](#uso)
 - [API Reference](#api-reference)
-- [Configuração](#configuração)
-- [Testes](#testes)
-- [Deploy (Opcional)](#deploy-opcional)
 - [Roadmap](#roadmap)
 - [Contribuição](#contribuição)
 - [Licença](#licença)
@@ -31,7 +27,7 @@
 
 ## Sobre
 
-Este projeto apresenta uma estrutura de dados `Set` dinâmica, implementada em C++ usando uma árvore AVL para manter o balanceamento. Foi desenvolvido como parte da Avaliação Continuada 02 da disciplina de Estruturas de Dados Avançadas na Universidade Federal do Ceará.
+Este projeto apresenta uma estrutura de dados `Set` dinâmica e genérica, implementada em C++ usando uma árvore AVL para manter o balanceamento. Foi desenvolvido como parte da Avaliação Continuada 02 da disciplina de Estruturas de Dados Avançadas na Universidade Federal do Ceará.
 
 - **Status:** 🎯 Em desenvolvimento
 - **Tecnologias:** C++21, STL
@@ -57,52 +53,77 @@ Este projeto apresenta uma estrutura de dados `Set` dinâmica, implementada em C
 ---
 
 ## UML & Arquitetura
-
 ```mermaid
 classDiagram
-    class Node {
-        +T key
-        +int height
-        +Node* left
-        +Node* right
+    %% Definição de classes
+    class Set<T> {
+        - Node<T>* root
+        - size_t size_m
+        + Set()
+        + Set(const Set<T>&)
+        + Set(initializer_list<T>)
+        + ~Set()
+        + size(): size_t
+        + empty(): bool
+        + clear(): void
+        + swap(other: Set<T>&): void
+        + insert(key: T): void
+        + erase(key: T): void
+        + contains(key: T): bool
+        + minimum(): T
+        + maximum(): T
+        + successor(key: T): T
+        + predecessor(key: T): T
+        + Union(other: Set<T>): Set<T>
+        + Intersection(other: Set<T>): Set<T>
+        + Difference(other: Set<T>): Set<T>
+        + operator+(other: Set<T>): Set<T>
+        + operator*(other: Set<T>): Set<T>
+        + operator-(other: Set<T>): Set<T>
+        + printInOrder(): void
+        + printPreOrder(): void
+        + printPostOrder(): void
+        + printLarge(): void
+        + bshow(): void
     }
-    class Set {
-        -Node* root
-        -size_t size_m
-        +Set()
-        +~Set()
-        +insert(x: int): void
-        +erase(x: int): void
-        +contains(x: int): bool
-        +clear(): void
-        +swap(T: Set&): void
-        +minimum(): int
-        +maximum(): int
-        +successor(x: int): int
-        +predecessor(x: int): int
-        +empty(): bool
-        +size(): size_t
-        +union(S: Set&, R: Set&): Set
-        +intersection(S: Set&, R: Set&): Set
-        +difference(S: Set&, R: Set&): Set
+
+    class Node<T> {
+        + T key
+        + int height
+        + Node<T>* left
+        + Node<T>* right
     }
-    Set --> Node
+
+    %% Relação de composição
+    Set<T> --> Node<T>
 ```
 
-A arquitetura segue o paradigma orientado a objetos, separando declaração (`Set.hpp`), implementação (`Set.cpp`) e interface de usuário (`main.cpp`).
+A arquitetura segue o paradigma orientado a objetos, utilizando classes e métodos para encapsular a lógica de manipulação de conjuntos. A classe `Set` é responsável por gerenciar a árvore AVL, enquanto a classe `Node` representa os nós da árvore.
 
 ---
 
 ## Demonstração
 
-> **Observação:** Inclua capturas de tela da aplicação de console (menu interativo) em `docs/`.
+A aplicação possui um menu interativo que permite ao usuário realizar operações de conjuntos dinâmicos. Abaixo estão algumas capturas de tela e um vídeo demonstrando o funcionamento da aplicação.
+
+-- **Menu Interativo:**
+  - O usuário pode escolher entre criar, manipular ou imprimir conjuntos, além de realizar operações como união, interseção e diferença.
+![Demonstração do menu interativo](docs/images/menu.png)
+
+-- **Exemplo de uso:**
+  - Demonstração de impressão de conjuntos em diferentes ordens (in-order, pre-order, post-order, etc).
+![Exemplo de uso](docs/images/binaryTree.png)
+
+-- **Vídeo de Demonstração:**
+  - Um vídeo curto mostrando a aplicação em funcionamento, incluindo a criação de conjuntos, inserção e remoção de elementos, e operações de união e interseção.
+![Exemplo de uso](docs/videos/demonstracao.mp4)
 
 ---
 
 ## Pré-requisitos
 
 - **Compilador:** g++ com suporte C++17 ou superior
-- **Ferramenta de build:** make (opcional) 
+- **Ferramenta de build:** make
 - **Sistema operacional:** Windows, macOS ou Linux
 
 ---
@@ -117,6 +138,7 @@ cd Conjuntos-Dinamicos-AVL
 
 ### Usando Make
 ```bash
+# Instale o make se não estiver disponível
 cd Conjuntos-Dinamicos-AVL
 make
 ```
@@ -133,17 +155,16 @@ cd Conjuntos-Dinamicos-AVL/bin
 ```
 
 Exemplo de fluxo:
-```
-1) Inserir elemento
-2) Remover elemento
-3) Verificar presença
-4) Mínimo/Máximo
-5) Sucessor/Predecessor
-6) União/Interseção/Diferença
-7) Limpar conjunto
-8) Trocar conjuntos
-9) Tamanho/Vazio
-0) Sair
+``` bash
+Escolha uma opção:
+1) Criar conjunto
+2) Manipular conjunto
+3) Imprimir conjunto
+4) Trocar conjuntos
+5) União de conjuntos
+6) Interseção de conjuntos
+7) Diferença de conjuntos
+8) Sair
 ```
 
 ---
@@ -170,24 +191,14 @@ Exemplo de fluxo:
 
 ---
 
-## Testes
-
-Para testar as funções, adicione casos em `tests/` e execute:
-```bash
-# Exemplo simples
-./Set < tests/casos.txt
-```
-
----
-
-
 ## Roadmap
 
 - [x] Operações básicas de conjunto
-- [ ] Balanceamento AVL nas inserções e remoções
-- [ ] Operações binárias (união, interseção, diferença)
+- [x] Balanceamento AVL nas inserções e remoções
+- [x] Operações binárias (união, interseção, diferença)
 - [x] Versão genérica (templates C++)
-- [ ] Integração com testes automatizados (Google Test)
+- [ ] Testes unitários
+- [ ] Documentação detalhada
 
 ---
 

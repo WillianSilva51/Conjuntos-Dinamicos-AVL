@@ -275,6 +275,7 @@ Node<T> *Set<T>::remove(NodePtr p, const T &key)
     {
         NodePtr child = p->left;
         delete p;
+        size_m--;
         return child;
     }
     else
@@ -295,6 +296,7 @@ Node<T> *Set<T>::remove_successor(NodePtr root, NodePtr node)
         root->key = node->key;
         NodePtr aux = node->right;
         delete node;
+        size_m--;
         return aux;
     }
 
