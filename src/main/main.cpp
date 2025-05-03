@@ -118,7 +118,6 @@ void salvarConjunto(const Set<int> &conjunto, vector<Set<int>> &conjuntos)
 
             return;
         }
-
         default:
             std::cout << "Opção inválida" << std::endl;
             break;
