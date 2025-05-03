@@ -55,7 +55,6 @@ Este projeto apresenta uma estrutura de dados `Set` dinâmica e genérica, imple
 ## UML & Arquitetura
 ```mermaid
 classDiagram
-    %% Definição de classes
     class Set<T> {
         - Node<T>* root
         - size_t size_m
@@ -94,7 +93,6 @@ classDiagram
         + Node<T>* right
     }
 
-    %% Relação de composição
     Set<T> --> Node<T>
 ```
 
@@ -116,7 +114,7 @@ A aplicação possui um menu interativo que permite ao usuário realizar operaç
 
 -- **Vídeo de Demonstração:**
   - Um vídeo curto mostrando a aplicação em funcionamento, incluindo a criação de conjuntos, inserção e remoção de elementos, e operações de união e interseção.
-![Exemplo de uso](docs/videos/demonstracao.mp4)
+![Exemplo de uso](docs/gifs/Demonstracao.gif)
 
 ---
 
