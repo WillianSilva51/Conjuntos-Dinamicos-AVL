@@ -6,6 +6,11 @@
 ![Languages](https://img.shields.io/github/languages/count/WillianSilva51/Conjuntos-Dinamicos-AVL)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
+<p align="center">
+  <img src="docs/images/logo.png" alt="Logo do projeto" width="300" loading="lazy"/>
+</p>
+
+
 > Implementação em C++ de conjuntos dinâmicos de inteiros usando árvores AVL, garantindo operações de inserção, remoção e busca com complexidade O(log n).
 
 ## 📑 Sumário
