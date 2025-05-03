@@ -55,7 +55,7 @@ Este projeto apresenta uma estrutura de dados `Set` dinâmica e genérica, imple
 ## UML & Arquitetura
 ```mermaid
 classDiagram
-    class Set<T> {
+    class Set {
         - Node<T>* root
         - size_t size_m
         + Set()
@@ -86,7 +86,7 @@ classDiagram
         + bshow(): void
     }
 
-    class Node<T> {
+    class Node {
         + T key
         + int height
         + Node<T>* left
