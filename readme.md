@@ -93,7 +93,7 @@ classDiagram
         + Node<T>* right
     }
 
-    Set<T> --> Node<T>
+    Set --> Node
 ```
 
 A arquitetura segue o paradigma orientado a objetos, utilizando classes e métodos para encapsular a lógica de manipulação de conjuntos. A classe `Set` é responsável por gerenciar a árvore AVL, enquanto a classe `Node` representa os nós da árvore.
