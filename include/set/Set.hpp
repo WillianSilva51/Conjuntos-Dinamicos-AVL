@@ -178,20 +178,20 @@ Node<T> *Set<T>::fixup_node(NodePtr p)
 
     int bal = balance(p);
 
-    if (bal < -1 and height(p->left->left) > height(p->left->right))
+    if (bal == -2 and height(p->left->left) > height(p->left->right))
     {
         return rightRotation(p);
     }
-    else if (bal < -1 and height(p->left->left) < height(p->left->right))
+    else if (bal == -2 and height(p->left->left) < height(p->left->right))
     {
         p->left = leftRotation(p->left);
         return rightRotation(p);
     }
-    else if (bal > 1 and height(p->right->right) > height(p->right->left))
+    else if (bal == 2 and height(p->right->right) > height(p->right->left))
     {
         return leftRotation(p);
     }
-    else if (bal > 1 and height(p->right->right) < height(p->right->left))
+    else if (bal == 2 and height(p->right->right) < height(p->right->left))
     {
         p->right = rightRotation(p->right);
         return leftRotation(p);
@@ -238,19 +238,19 @@ Node<T> *Set<T>::fixup_deletion(NodePtr p)
 {
     int bal = balance(p);
 
-    if (bal > 1 and balance(p->right) >= 0)
+    if (bal == 2 and balance(p->right) >= 0)
         return leftRotation(p);
 
-    if (bal > 1 and balance(p->right) < 0)
+    if (bal == 2 and balance(p->right) < 0)
     {
         p->right = rightRotation(p->right);
         return leftRotation(p);
     }
 
-    if (bal < -1 and balance(p->left) <= 0)
+    if (bal == -2 and balance(p->left) <= 0)
         return rightRotation(p);
 
-    if (bal < -1 and balance(p->left) > 0)
+    if (bal == -2 and balance(p->left) > 0)
     {
         p->left = leftRotation(p->left);
         return rightRotation(p);
@@ -688,16 +688,21 @@ void Set<T>::bshow(NodePtr node, std::string heranca)
 {
     if (node != nullptr and (node->left != nullptr or node->right != nullptr))
         bshow(node->right, heranca + "r");
+
     for (int i = 0; i < (int)heranca.size() - 1; i++)
         std::cout << (heranca[i] != heranca[i + 1] ? "│   " : "    ");
+
     if (heranca != "")
         std::cout << (heranca.back() == 'r' ? "┌───" : "└───");
+
     if (node == nullptr)
     {
         std::cout << "#" << std::endl;
         return;
     }
+
     std::cout << node->key << std::endl;
+
     if (node != nullptr and (node->left != nullptr or node->right != nullptr))
         bshow(node->left, heranca + "l");
 }

@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
+            "label": "build Linux",
             "type": "shell",
             "command": "make",
             "args": [],
@@ -10,7 +10,18 @@
             "problemMatcher": [
                 "$gcc"
             ],
-            "detail": "Build the project"
+            "detail": "Build the project for Linux"
+        },
+        {
+            "label": "build Windows",
+            "type": "shell",
+            "command": "mingw32-make",
+            "args": [],
+            "group": "build",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "detail": "Build the project for Windows"
         }
     ]
 }

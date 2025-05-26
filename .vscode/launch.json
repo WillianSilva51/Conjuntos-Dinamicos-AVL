@@ -4,7 +4,7 @@
         {
             "type": "cppdbg",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "Launch Program Linux",
             "program": "${workspaceFolder}/bin/${workspaceFolderBasename}",
             "args": [],
             "stopAtEntry": false,
@@ -19,7 +19,27 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "build"
+            "preLaunchTask": "build Linux"
+        },
+        {
+            "type": "cppdbg",
+            "request": "launch",
+            "name": "Launch Program Windows",
+            "program": "${workspaceFolder}/bin/${workspaceFolderBasename}.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "build Windows"
         }
     ]
 }
