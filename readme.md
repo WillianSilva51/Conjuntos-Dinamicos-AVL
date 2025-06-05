@@ -200,7 +200,7 @@ Escolha uma opção:
 - [x] Balanceamento AVL nas inserções e remoções
 - [x] Operações binárias (união, interseção, diferença)
 - [x] Versão genérica (templates C++)
-- [ ] Testes unitários
+- [x] Testes unitários
 - [ ] Documentação detalhada
 
 ---

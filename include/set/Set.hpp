@@ -14,7 +14,6 @@ class Set
 
 private:
     Node<T> *root{nullptr};
-
     size_t size_m{0};
 
     Node<T> *fixup_node(NodePtr p);
@@ -61,6 +60,8 @@ public:
     Set(std::initializer_list<T> list);
 
     ~Set();
+
+    void operator=(const Set &other);
 
     size_t size() const;
 
@@ -128,6 +129,16 @@ template <class T>
 Set<T>::~Set()
 {
     clear();
+}
+
+template <class T>
+void Set<T>::operator=(const Set &other)
+{
+    if (this != &other)
+    {
+        clear();
+        insertUnion(*this, other.root);
+    }
 }
 
 template <class T>
@@ -657,7 +668,7 @@ template <class T>
 void Set<T>::printLarge(NodePtr node)
 {
     if (!node)
-        std::cout << "Nao ha nodes" << std::endl;
+        return;
 
     std::queue<NodePtr> nodes;
     nodes.push(node);

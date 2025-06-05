@@ -58,7 +58,7 @@ OUTPUT_NAME = $(notdir $(CURDIR))
 OUTPUT = $(OUTPUT_DIR)/$(OUTPUT_NAME)$(EXT)
 
 # Diretórios de inclusão e bibliotecas
-INCLUDE_DIRS = include
+INCLUDE_DIRS = include lib/googletest/googletest/include lib/googletest/googletest
 INCLUDES = $(patsubst %,-I%, $(INCLUDE_DIRS))
 LIB_DIRS = lib
 LIBS = $(patsubst %,-L%, $(LIB_DIRS))
@@ -177,6 +177,11 @@ TEST_OBJECTS := $(patsubst $(TESTS_DIR)/%.cpp,$(TESTS_DIR)/%.o,$(TEST_SOURCES))
 # Nome do executável de teste; você pode ajustá-lo conforme desejar
 TEST_EXECUTABLE := $(TESTS_DIR)/test$(EXT)
 
+# Variáveis para o Google Test
+# Certifique-se de que o Google Test esteja na pasta lib/googletest
+GTEST_SRC = lib/googletest/googletest/src/gtest-all.cc lib/googletest/googletest/src/gtest_main.cc
+GTEST_OBJECTS = $(patsubst %.cc,%.o,$(GTEST_SRC))
+
 # Verifica se há arquivos de teste
 ifneq ($(strip $(TEST_OBJECTS)),)
 	TEST_AVAILABLE := 1
@@ -184,23 +189,30 @@ else
 	TEST_AVAILABLE := 0
 endif
 
+lib/googletest/googletest/src/%.o: lib/googletest/googletest/src/%.cc
+	@echo "Compilando Google Test $<..."
+	@$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
+
 # Regra para compilar os arquivos de teste
 $(TESTS_DIR)/%.o: $(TESTS_DIR)/%.cpp
 	@echo "Compilando teste $<..."
 	@$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 
 # Regra para linkar o executável de teste
-$(TEST_EXECUTABLE): $(TEST_OBJECTS)
+$(TEST_EXECUTABLE): $(TEST_OBJECTS) $(GTEST_OBJECTS)
 ifeq ($(TEST_AVAILABLE),1)
-	@echo "Linkando executavel de teste $@ com os arquivos: $^"
-	@$(CXX) $(CXXFLAGS) $(INCLUDES) -o $@ $^ $(LIBS)
+	@echo "Linkando executavel de teste $@ com GTest..."
+	@$(CXX) $(CXXFLAGS) $(INCLUDES) -o $@ $^ -pthread
 	@echo "Teste compilado com sucesso!"
 endif
+
+# Regra para compilar os testes
+build-tests: $(TEST_EXECUTABLE)
 
 test: $(TEST_EXECUTABLE)
 ifeq ($(TEST_AVAILABLE),1)
 	@echo "Executando os testes..."
 	@$(TEST_EXECUTABLE)
 else
-	@echo "Nenhum arquivo de teste encontrado em $(TESTS_DIR)."
+	@echo "Nenhum teste encontrado. Crie arquivos .cpp em '$(TESTS_DIR)' para rodar testes com Google Test."
 endif

@@ -52,10 +52,11 @@
         "text_encoding": "cpp",
         "typeinfo": "cpp",
         "variant": "cpp",
-        "queue": "cpp"
+        "queue": "cpp",
+        "sstream": "cpp"
     },
     "github.copilot.enable": {
-        "*": false,
+        "*": true,
         "plaintext": true,
         "markdown": true,
         "scminput": false
