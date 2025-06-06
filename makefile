@@ -213,6 +213,7 @@ test: $(TEST_EXECUTABLE)
 ifeq ($(TEST_AVAILABLE),1)
 	@echo "Executando os testes..."
 	@$(TEST_EXECUTABLE)
+	@echo "Testes concluídos com sucesso!"
 else
 	@echo "Nenhum teste encontrado. Crie arquivos .cpp em '$(TESTS_DIR)' para rodar testes com Google Test."
 endif

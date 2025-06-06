@@ -53,10 +53,16 @@
         "typeinfo": "cpp",
         "variant": "cpp",
         "queue": "cpp",
-        "sstream": "cpp"
+        "sstream": "cpp",
+        "chrono": "cpp",
+        "forward_list": "cpp",
+        "list": "cpp",
+        "unordered_set": "cpp",
+        "fstream": "cpp",
+        "thread": "cpp"
     },
     "github.copilot.enable": {
-        "*": true,
+        "*": false,
         "plaintext": true,
         "markdown": true,
         "scminput": false
